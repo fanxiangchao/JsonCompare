@@ -150,7 +150,7 @@ public class JsonCompareMain {
         JsonFileEnum(String jsonFileName, Class jsonBeanClass){
             this.jsonFileName = jsonFileName;
             this.jsonBeanClass = jsonBeanClass;
-            jsonFilePath = getJsonFileDir() + File.separator + jsonFileName;
+            jsonFilePath = getJsonFileDir() + jsonFileName;
         }
 
         public static JsonFileEnum getJsonFileName(String jsonFileName)
