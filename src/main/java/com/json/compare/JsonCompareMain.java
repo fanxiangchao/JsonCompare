@@ -17,59 +17,73 @@ public class JsonCompareMain {
     public static void main(String[] args) throws Exception {
 
         if (args.length != 3) {
-            System.out.println("Usage:");
-            System.out.println(JsonCompareMain.class.getCanonicalName()
-                    + " arg[0] arg[1] arg[2]");
-            System.out.println("Description:");
-            System.out.println("arg[0]:Type of Json Object(Jackson|Gson|JsonLib|FastJson)");
-            System.out.println("arg[1]:Json File Location");
-            System.out.println("arg[2]:Number Of Run");
-            System.out.println("Example:");
-            System.out.println(JsonCompareMain.class.getName() + " Jackson /home/1.json 100");
+            printUsage();
             return;
         }
 
-        JsonType jsonType = JsonType.valueOf(args[0].toUpperCase(Locale.ENGLISH));
-        String fileLocation = args[1];
-        long runNumber = Long.parseLong(args[2]);
+        AbsJsonProcessor jsonProcessor = getJsonProcessor(args[0]);
 
-        System.out.println(String.format("Json Type = %s, Json File Location = %s, Number Of Run = %d",
-                jsonType.name(), fileLocation, runNumber));
+        JsonFileEnum jsonFileEnum = JsonFileEnum.getJsonFileName(args[1]);
 
-        AbsJsonProcessor jsonProcessor;
-
-        switch (jsonType)
+        if (jsonFileEnum == null)
         {
-            case JACKSON:
-                jsonProcessor = new JacksonProcessor();
-                break;
-            case GSON:
-                jsonProcessor = new GsonProcessor();
-                break;
-            case JSONLIB:
-                jsonProcessor = new JsonLibProcessor();
-                break;
-            case FASTJSON:
-                jsonProcessor = new FastJsonProcessor();
-                break;
-            default:
-                throw new Exception("invalid json type -> " + args[0]);
+            System.out.println("Invalid json file name: " + args[1]);
+            return;
         }
 
+        String fileLocation = jsonFileEnum.jsonFilePath;
+
+        long runNumber = Long.parseLong(args[2]);
+
+        System.out.println(String.format("Json Type = %s, Json File = %s, Number Of Run = %d",
+                args[0].toUpperCase(Locale.ENGLISH), fileLocation, runNumber));
+
+        Class beanClass = jsonFileEnum.jsonBeanClass;
         String jsonStr = readJsonFromFile(fileLocation);
+        Object beanObject = objmapper.readValue(jsonStr,beanClass);
 
-        long costTime = testJsonStrToJavaBean(jsonProcessor,jsonStr,runNumber);
-
+        long costTime = testJsonStrToJavaBean(jsonProcessor,jsonStr,runNumber,beanClass);
         System.out.println(String.format("Json to JavaBean -> %s cost %10d, run number: %d",args[0],costTime,runNumber));
 
-        SimpleUserBean simpleUserBean = objmapper.readValue(jsonStr,SimpleUserBean.class);
-
-        costTime = testJavaBeanToJsonStr(jsonProcessor,simpleUserBean,runNumber);
+        costTime = testJavaBeanToJsonStr(jsonProcessor,beanObject,runNumber);
         System.out.println(String.format("JavaBean to Json -> %s cost %10d, run number: %d",args[0],costTime,runNumber));
 
     }
 
-    private static long testJavaBeanToJsonStr(AbsJsonProcessor jsonProcessor, SimpleUserBean simpleUserBean, long runNumber) throws Exception {
+    private static void printUsage() {
+        System.out.println("Usage:");
+        System.out.println(JsonCompareMain.class.getCanonicalName()
+                + " arg[0] arg[1] arg[2]");
+        System.out.println("Description:");
+        System.out.println("arg[0]:Type of Json Object(Jackson|Gson|JsonLib|FastJson)");
+        System.out.println("arg[1]:Json File");
+        for (JsonFileEnum jsonFileEnum : JsonFileEnum.values())
+        {
+            System.out.println(String.format("%10s%s","", jsonFileEnum.jsonFileName));
+        }
+        System.out.println("arg[2]:Number Of Run");
+        System.out.println("Example:");
+        System.out.println(JsonCompareMain.class.getName() + " Jackson " + JsonFileEnum.SIMPLEUSER.jsonFileName + " 100");
+    }
+
+    private static AbsJsonProcessor getJsonProcessor(String jsonTypeStr) throws Exception {
+        JsonType jsonType = JsonType.valueOf(jsonTypeStr.toUpperCase(Locale.ENGLISH));
+        switch (jsonType)
+        {
+            case JACKSON:
+                return new JacksonProcessor();
+            case GSON:
+                return new GsonProcessor();
+            case JSONLIB:
+                return new JsonLibProcessor();
+            case FASTJSON:
+                return new FastJsonProcessor();
+            default:
+                throw new Exception("invalid json type -> " + jsonTypeStr);
+        }
+    }
+
+    private static <T> long testJavaBeanToJsonStr(AbsJsonProcessor jsonProcessor, T simpleUserBean, long runNumber) throws Exception {
 
         long start = System.currentTimeMillis();
         String json;
@@ -82,13 +96,12 @@ public class JsonCompareMain {
         return System.currentTimeMillis() - start;
     }
 
-    private static long testJsonStrToJavaBean(AbsJsonProcessor jsonProcessor, String jsonStr, long runNumber) throws Exception {
+    private static <T> long testJsonStrToJavaBean(AbsJsonProcessor jsonProcessor, String jsonStr, long runNumber, Class<T> beanClass) throws Exception {
 
         long start = System.currentTimeMillis();
 
-        for (long i =0; i < runNumber; i++)
-        {
-            SimpleUserBean simpleUserBean = jsonProcessor.JsonStrtoJavaBean(jsonStr, SimpleUserBean.class);
+        for (long i = 0; i < runNumber; i++) {
+            T simpleUserBean = jsonProcessor.JsonStrtoJavaBean(jsonStr, beanClass);
         }
 
         return System.currentTimeMillis() - start;
@@ -116,7 +129,41 @@ public class JsonCompareMain {
         return strBuilder.toString();
     }
 
+    public static String getJsonFileDir() {
+        return JsonCompareMain.class.getResource("/").getPath();
+    }
+
     enum JsonType{
         JACKSON,GSON,JSONLIB,FASTJSON
+    }
+
+    enum JsonFileEnum {
+
+        SIMPLEUSER("SimpleUser.json", SimpleUserBean.class);
+
+        private String jsonFileName;
+
+        private String jsonFilePath;
+
+        private Class jsonBeanClass;
+
+        JsonFileEnum(String jsonFileName, Class jsonBeanClass){
+            this.jsonFileName = jsonFileName;
+            this.jsonBeanClass = jsonBeanClass;
+            jsonFilePath = getJsonFileDir() + File.separator + jsonFileName;
+        }
+
+        public static JsonFileEnum getJsonFileName(String jsonFileName)
+        {
+            for (JsonFileEnum json : JsonFileEnum.values())
+            {
+                if (json.jsonFileName.equalsIgnoreCase(jsonFileName))
+                {
+                    return json;
+                }
+            }
+
+            return null;
+        }
     }
 }

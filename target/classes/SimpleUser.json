@@ -1,0 +1,10 @@
+{
+  "userId": 101,
+  "userName": "Tom",
+  "userEmail": "tom@gmail.com",
+  "area": {
+    "areaCode": 10,
+    "areaCountry": "China",
+    "areaCity": "Nanjing"
+  }
+}
