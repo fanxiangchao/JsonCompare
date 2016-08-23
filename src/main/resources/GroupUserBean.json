@@ -1,0 +1,106 @@
+{
+  "groupId": 200,
+  "groupName": "Group_1",
+  "userBeanList": [
+    {
+      "userId": 100,
+      "userName": "Tom",
+      "userEmail": "tom@gmail.com",
+      "area": {
+        "areaCode": 0,
+        "areaCountry": "China",
+        "areaCity": "Beijing"
+      }
+    },
+    {
+      "userId": 101,
+      "userName": "Moon",
+      "userEmail": "moon@gmail.com",
+      "area": {
+        "areaCode": 1,
+        "areaCountry": "China",
+        "areaCity": "Nanjing"
+      }
+    },
+    {
+      "userId": 102,
+      "userName": "Earth",
+      "userEmail": "earth@gmail.com",
+      "area": {
+        "areaCode": 2,
+        "areaCountry": "China",
+        "areaCity": "Shanghai"
+      }
+    },
+    {
+      "userId": 103,
+      "userName": "Jack",
+      "userEmail": "Jack@gmail.com",
+      "area": {
+        "areaCode": 3,
+        "areaCountry": "China",
+        "areaCity": "Shenzhen"
+      }
+    },
+    {
+      "userId": 104,
+      "userName": "James",
+      "userEmail": "James@gmail.com",
+      "area": {
+        "areaCode": 4,
+        "areaCountry": "China",
+        "areaCity": "Tianjin"
+      }
+    },
+    {
+      "userId": 105,
+      "userName": "Jordan",
+      "userEmail": "Jordan@gmail.com",
+      "area": {
+        "areaCode": 5,
+        "areaCountry": "China",
+        "areaCity": "Nanjing"
+      }
+    },
+    {
+      "userId": 106,
+      "userName": "Kobe",
+      "userEmail": "Kobe@gmail.com",
+      "area": {
+        "areaCode": 6,
+        "areaCountry": "China",
+        "areaCity": "Guangzhou"
+      }
+    },
+    {
+      "userId": 107,
+      "userName": "Wade",
+      "userEmail": "wade@gmail.com",
+      "area": {
+        "areaCode": 7,
+        "areaCountry": "China",
+        "areaCity": "Qingdao"
+      }
+    },
+    {
+      "userId": 108,
+      "userName": "Durant",
+      "userEmail": "durant@gmail.com",
+      "area": {
+        "areaCode": 8,
+        "areaCountry": "China",
+        "areaCity": "Jinan"
+      }
+    },
+    {
+      "userId": 109,
+      "userName": "Antony",
+      "userEmail": "Antony@gmail.com",
+      "area": {
+        "areaCode": 9,
+        "areaCountry": "China",
+        "areaCity": "Chongqing"
+      }
+    }
+  ]
+}

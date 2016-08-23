@@ -1,16 +1,14 @@
 package com.json.compare;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.json.compare.bean.GroupUserBean;
 import com.json.compare.bean.SimpleUserBean;
-import org.apache.commons.io.IOUtils;
-
-import java.io.*;
 import java.util.Locale;
 
 /**
  * Created by Administrator on 2016/8/21.
  */
-public class JsonCompareMain {
+public class JsonCompareMain extends BaseJsonCompare{
 
     private static ObjectMapper objmapper = new ObjectMapper();
 
@@ -107,31 +105,7 @@ public class JsonCompareMain {
         return System.currentTimeMillis() - start;
     }
 
-    private static String readJsonFromFile(String fileLocation) throws IOException {
-        BufferedReader br = null;
-        StringBuilder strBuilder = new StringBuilder();
 
-        try
-        {
-            br = new BufferedReader(new FileReader(new File(fileLocation)));
-            String line;
-
-            while ((line = br.readLine()) != null)
-            {
-                strBuilder.append(line);
-            }
-
-        }
-        finally {
-            IOUtils.closeQuietly(br);
-        }
-
-        return strBuilder.toString();
-    }
-
-    public static String getJsonFileDir() {
-        return JsonCompareMain.class.getResource("/").getPath();
-    }
 
     enum JsonType{
         JACKSON,GSON,JSONLIB,FASTJSON
@@ -139,7 +113,8 @@ public class JsonCompareMain {
 
     enum JsonFileEnum {
 
-        SIMPLEUSER("SimpleUser.json", SimpleUserBean.class);
+        SIMPLEUSER("SimpleUser.json", SimpleUserBean.class),
+        GROUPUSER("GroupUserBean.json", GroupUserBean.class);
 
         private String jsonFileName;
 

@@ -1,0 +1,15 @@
+{
+  "id": 100,
+  "name": "genericBean",
+  "data":
+  {
+    "userId": 100,
+    "userName": "Tom",
+    "userEmail": "tom@gmail.com",
+    "area": {
+      "areaCode": 0,
+      "areaCountry": "China",
+      "areaCity": "Beijing"
+    }
+  }
+}
