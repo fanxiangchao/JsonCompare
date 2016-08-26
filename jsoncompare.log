@@ -1,0 +1,4 @@
+Json Type = JSONLIB, Json File = /home/fanxiangchao/git/JsonCompare/SimpleUser.json, Number Of Run = 1000000
+Json Type = FASTJSON, Json File = /home/fanxiangchao/git/JsonCompare/SimpleUser.json, Number Of Run = 1000000
+Json Type = GSON, Json File = /home/fanxiangchao/git/JsonCompare/SimpleUser.json, Number Of Run = 1000000
+Json Type = JACKSON, Json File = /home/fanxiangchao/git/JsonCompare/SimpleUser.json, Number Of Run = 1000000
