@@ -12,6 +12,10 @@ public class JsonCompareMain extends BaseJsonCompare{
 
     private static ObjectMapper objmapper = new ObjectMapper();
 
+    private static final char GS = '\035';
+
+    private static final char RS = '\036';
+
     public static void main(String[] args) throws Exception {
 
         if (args.length != 3) {
@@ -41,11 +45,12 @@ public class JsonCompareMain extends BaseJsonCompare{
         Object beanObject = objmapper.readValue(jsonStr,beanClass);
 
         long costTime = testJsonStrToJavaBean(jsonProcessor,jsonStr,runNumber,beanClass);
-        System.out.println(String.format("Json to JavaBean -> %s cost %10d, run number: %d",args[0],costTime,runNumber));
+        System.out.println(String.format("%cJson String to JavaBean%c%s%c%d",GS,RS,getJsonType(args[0]).name(),RS,costTime));
+        System.out.println(String.format("Json String to JavaBean -> %s cost %10d, run number: %d",args[0],costTime,runNumber));
 
         costTime = testJavaBeanToJsonStr(jsonProcessor,beanObject,runNumber);
-        System.out.println(String.format("JavaBean to Json -> %s cost %10d, run number: %d",args[0],costTime,runNumber));
-
+        System.out.println(String.format("JavaBean to Json String -> %s cost %10d, run number: %d",args[0],costTime,runNumber));
+        System.out.println(String.format("%cJavaBean to Json String%c%s%c%d",GS,RS,getJsonType(args[0]).name(),RS,costTime));
     }
 
     private static void printUsage() {
@@ -64,8 +69,13 @@ public class JsonCompareMain extends BaseJsonCompare{
         System.out.println(JsonCompareMain.class.getName() + " Jackson " + JsonFileEnum.SIMPLEUSER.jsonFileName + " 100");
     }
 
+    private static JsonType getJsonType(String jsonType)
+    {
+        return JsonType.valueOf(jsonType.toUpperCase(Locale.ENGLISH));
+    }
+
     private static AbsJsonProcessor getJsonProcessor(String jsonTypeStr) throws Exception {
-        JsonType jsonType = JsonType.valueOf(jsonTypeStr.toUpperCase(Locale.ENGLISH));
+        JsonType jsonType = getJsonType(jsonTypeStr);
         switch (jsonType)
         {
             case JACKSON:
