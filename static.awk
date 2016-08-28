@@ -15,7 +15,7 @@ BEGIN{
 END{
     for (operateName in operateCount)
     {
-        title = operateName","jsonName","loopNum"*"runNum;
+        title = jsonName":("operateName","loopNum"*"runNum")";
         size = length(title);
         printf("%*s%*s%*s\n",(70 - size)/2,"",size,title,(70 - size)/2,"");
         printf("%s\n","--------------------------------------------------------------------------------");
@@ -23,11 +23,11 @@ END{
         printf("%s\n","--------------------------------------------------------------------------------");
         for (count = 1; count <= operateCount[operateName]; count++)
         {
-            printf("%-10s%15s%15s%15s%15s\n",count,staticArr[operateName,jsonTypeArr[0],count],staticArr[operateName,jsonTypeArr[1],count],staticArr[operateName,jsonTypeArr[2],count],staticArr[operateName,jsonTypeArr[3],count]);
+            printf("%-10s%15s%15s%15s%15s\n",count,formatNum(staticArr[operateName,jsonTypeArr[0],count]),formatNum(staticArr[operateName,jsonTypeArr[1],count]),formatNum(staticArr[operateName,jsonTypeArr[2],count]),formatNum(staticArr[operateName,jsonTypeArr[3],count]));
         }
 
         printf("%s\n","--------------------------------------------------------------------------------")
-        printf("%-10s%15s%15s%15s%15s\n","Avg",totalArr[operateName,jsonTypeArr[0]]/operateCount[operateName],totalArr[operateName,jsonTypeArr[1]]/operateCount[operateName],totalArr[operateName,jsonTypeArr[2]]/operateCount[operateName],totalArr[operateName,jsonTypeArr[3]]/operateCount[operateName]);
+        printf("%-10s%15s%15s%15s%15s\n","Avg",formatNum(totalArr[operateName,jsonTypeArr[0]]/operateCount[operateName]),formatNum(totalArr[operateName,jsonTypeArr[1]]/operateCount[operateName]),formatNum(totalArr[operateName,jsonTypeArr[2]]/operateCount[operateName]),formatNum(totalArr[operateName,jsonTypeArr[3]]/operateCount[operateName]));
         printf("%s\n","--------------------------------------------------------------------------------")
         printf("\n\n")
     }
