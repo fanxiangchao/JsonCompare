@@ -11,7 +11,20 @@ function formatNum(num)
     
     while (tmpNum > 1000)
     {
-        result = ","(tmpNum % 1000)""result;
+        mode = tmpNum % 1000;
+        if (mode < 10)
+        {
+            result = ",00"mode""result;
+        }
+        else if (mode < 100)
+        {
+            result = ",0"mode""result;
+        }
+        else
+        {
+            result = ","mode""result;
+        }
+
         tmpNum = int(tmpNum / 1000);
     }
 
