@@ -1,6 +1,7 @@
 package com.json.compare;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.parser.Feature;
 
 /**
  * Created by Administrator on 2016/8/21.
@@ -11,6 +12,6 @@ public class FastJsonProcessor extends AbsJsonProcessor {
     }
 
     public <T> T JsonStrtoJavaBean(String jsonStr, Class<T> tClass) throws Exception {
-        return JSON.parseObject(jsonStr,tClass);
+        return JSON.parseObject(jsonStr,tClass,Feature.DisableCircularReferenceDetect);
     }
 }

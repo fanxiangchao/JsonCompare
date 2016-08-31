@@ -44,4 +44,14 @@ public class SimpleUserBean {
     public void setArea(Area area) {
         this.area = area;
     }
+
+    @Override
+    public String toString() {
+        return "SimpleUserBean{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", userEmail='" + userEmail + '\'' +
+                ", area=" + area +
+                '}';
+    }
 }

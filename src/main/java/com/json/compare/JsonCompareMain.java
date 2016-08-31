@@ -93,9 +93,11 @@ public class JsonCompareMain extends BaseJsonCompare{
 
     private static <T> long testJavaBeanToJsonStr(AbsJsonProcessor jsonProcessor, T simpleUserBean, long runNumber) throws Exception {
 
-        long start = System.currentTimeMillis();
-        String json;
 
+        String json = jsonProcessor.JavaBeantoJsonStr(simpleUserBean);
+        System.out.println(json);
+
+        long start = System.currentTimeMillis();
         for (long i = 0; i < runNumber; i++)
         {
             json = jsonProcessor.JavaBeantoJsonStr(simpleUserBean);
@@ -106,8 +108,10 @@ public class JsonCompareMain extends BaseJsonCompare{
 
     private static <T> long testJsonStrToJavaBean(AbsJsonProcessor jsonProcessor, String jsonStr, long runNumber, Class<T> beanClass) throws Exception {
 
-        long start = System.currentTimeMillis();
+        T bean = jsonProcessor.JsonStrtoJavaBean(jsonStr, beanClass);
+        System.out.println(bean);
 
+        long start = System.currentTimeMillis();
         for (long i = 0; i < runNumber; i++) {
             T simpleUserBean = jsonProcessor.JsonStrtoJavaBean(jsonStr, beanClass);
         }
